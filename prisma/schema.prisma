@@ -17,3 +17,72 @@ model User {
 
   @@map("users")
 }
+
+model Supermarket {
+  id        String @id @default(uuid())
+  name      String
+  addressId String
+
+  location Address @relation(fields: [addressId], references: [id])
+
+  products  Product[]
+  purchases Purchase[]
+
+  @@map("supermarkets")
+}
+
+model Address {
+  id      String @id @default(uuid())
+  street  String
+  cityId  String
+  stateId String
+
+  Supermarket Supermarket[]
+  City        City          @relation(fields: [cityId], references: [id])
+  State       State         @relation(fields: [stateId], references: [id])
+
+  @@map("addresses")
+}
+
+model City {
+  id   String @id @default(uuid())
+  name String
+
+  Address Address[]
+
+  @@map("cities")
+}
+
+model State {
+  id   String @id @default(uuid())
+  name String
+
+  Address Address[]
+
+  @@map("states")
+}
+
+model Purchase {
+  id            String  @id @default(uuid())
+  quantity      Int
+  amount        Float
+  productId     String
+  supermarketId String?
+
+  product     Product      @relation(fields: [productId], references: [id])
+  Supermarket Supermarket? @relation(fields: [supermarketId], references: [id])
+
+  @@map("purchases")
+}
+
+model Product {
+  id            String  @id @default(uuid())
+  name          String
+  amount        Float
+  supermarketId String?
+
+  Supermarket Supermarket? @relation(fields: [supermarketId], references: [id])
+  Purchase    Purchase[]
+
+  @@map("products")
+}

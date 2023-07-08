@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  db:
+    image: bitnami/postgresql
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "pg_isready",
+          "-q",
+          "-d",
+          "postgres",
+          "-U",
+          "root"
+        ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    environment:
+      POSTGRES_USER: "user_test"
+      POSTGRES_PASSWORD: "Postgres2019!"
+      POSTGRES_DATABASE: "compras"
+    ports:
+      - "5432:5432"
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+    networks:
+      - postgres-compose-network
+
+  teste-pgadmin-compose:
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "test@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "PgAdmin2019!"
+    ports:
+      - "9005:80"
+    depends_on:
+      - db
+    networks:
+      - postgres-compose-network
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+networks:
+  postgres-compose-network:
+    driver: bridge
+
+volumes:
+  local_pgdata:
+  pgadmin-data:
