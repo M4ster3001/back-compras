@@ -1,3 +1,4 @@
+import { Many } from '@/@types/common'
 import { PrismaClient } from '@prisma/client'
 
 export abstract class BaseRepository<T> {
@@ -9,7 +10,7 @@ export abstract class BaseRepository<T> {
   }
 
   _create<Includes = T>(data: Includes): Promise<void | T | any> {
-    return this.ORM[this.table].create({ ...data })
+    return this.ORM[this.table].create({ data })
   }
 
   _delete(id: number): Promise<boolean | void | T> {
@@ -24,7 +25,7 @@ export abstract class BaseRepository<T> {
     })
   }
 
-  _findAll(): Promise<any> {
+  _findAll(): Promise<Many<T>> {
     return this.ORM[this.table].findMany()
   }
 

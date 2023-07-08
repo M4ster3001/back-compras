@@ -1,5 +1,5 @@
 import { ProductRepository } from '@/repositories/products/product-repository'
-import { GetProductsUseCase } from '@/use-cases/get-products'
+import { GetProductsUseCase } from '@/use-cases/products/get-products'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 export class GetProductsController {
