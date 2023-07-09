@@ -1,7 +1,5 @@
 import AppError from '@/errors/AppError'
-import { ProductRepository } from '@/repositories/products/product-repository'
-import { SupermarketRepository } from '@/repositories/supermarkets/supermarket-repository'
-import { CreateProductsUseCase } from '@/use-cases/products/create-products'
+import { makeCreateProductsUseCase } from '@/use-cases/factories/make-create-products-use-case'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -19,10 +17,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
   const { products } = registerBodySchema.parse(request.body)
 
   try {
-    const createProductsUseCase = new CreateProductsUseCase(
-      new ProductRepository(),
-      new SupermarketRepository(),
-    )
+    const createProductsUseCase = makeCreateProductsUseCase()
 
     await createProductsUseCase.execute(products)
   } catch (err: any) {

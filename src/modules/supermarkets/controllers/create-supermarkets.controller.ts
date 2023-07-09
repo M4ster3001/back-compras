@@ -1,5 +1,4 @@
-import { SupermarketRepository } from '@/repositories/supermarkets/supermarket-repository'
-import { CreateSupermarketsUseCase } from '@/use-cases/supermarkets/create-supermarkets'
+import { makeCreateSupermarketsUseCase } from '@/use-cases/factories/make-create-supermarkets-use-case'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -15,9 +14,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
 
   const { supermarkets } = registerBodySchema.parse(request.body)
 
-  const createProductsUseCase = new CreateSupermarketsUseCase(
-    new SupermarketRepository(),
-  )
+  const createProductsUseCase = makeCreateSupermarketsUseCase()
 
   await createProductsUseCase.execute(supermarkets)
 
