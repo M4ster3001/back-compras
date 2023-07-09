@@ -1,8 +1,6 @@
 import { FastifyInstance } from 'fastify'
-import { CreateSupermarketsController } from '../controllers/create-supermarkets.controller'
-
-const createSupermarketsController = new CreateSupermarketsController()
+import { create } from '../controllers/create-supermarkets.controller'
 
 export async function supermarketsRoutes(app: FastifyInstance) {
-  app.post('/supermarkets', createSupermarketsController.handle)
+  app.post('/supermarkets', create)
 }

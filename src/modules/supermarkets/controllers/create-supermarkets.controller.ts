@@ -3,25 +3,23 @@ import { CreateSupermarketsUseCase } from '@/use-cases/supermarkets/create-super
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export class CreateSupermarketsController {
-  async handle(request: FastifyRequest, reply: FastifyReply) {
-    const registerBodySchema = z.object({
-      supermarkets: z
-        .object({
-          name: z.string(),
-          addressId: z.string(),
-        })
-        .array(),
-    })
+export async function create(request: FastifyRequest, reply: FastifyReply) {
+  const registerBodySchema = z.object({
+    supermarkets: z
+      .object({
+        name: z.string(),
+        addressId: z.string(),
+      })
+      .array(),
+  })
 
-    const { supermarkets } = registerBodySchema.parse(request.body)
+  const { supermarkets } = registerBodySchema.parse(request.body)
 
-    const createProductsUseCase = new CreateSupermarketsUseCase(
-      new SupermarketRepository(),
-    )
+  const createProductsUseCase = new CreateSupermarketsUseCase(
+    new SupermarketRepository(),
+  )
 
-    await createProductsUseCase.execute(supermarkets)
+  await createProductsUseCase.execute(supermarkets)
 
-    return reply.send(201).send()
-  }
+  return reply.send(201).send()
 }

@@ -2,12 +2,10 @@ import { ProductRepository } from '@/repositories/products/product-repository'
 import { GetProductsUseCase } from '@/use-cases/products/get-products'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-export class GetProductsController {
-  async handle(request: FastifyRequest, reply: FastifyReply) {
-    const getProductsUseCase = new GetProductsUseCase(new ProductRepository())
+export async function list(request: FastifyRequest, reply: FastifyReply) {
+  const getProductsUseCase = new GetProductsUseCase(new ProductRepository())
 
-    const products = await getProductsUseCase.execute()
+  const products = await getProductsUseCase.execute()
 
-    return reply.status(200).send(products)
-  }
+  return reply.status(200).send(products)
 }

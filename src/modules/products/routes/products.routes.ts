@@ -1,11 +1,8 @@
 import { FastifyInstance } from 'fastify'
-import { GetProductsController } from '../controllers/get-products.controller'
-import { CreateProductsController } from '../controllers/create-products.controller'
-
-const getProductsController = new GetProductsController()
-const createProductsController = new CreateProductsController()
+import { list } from '../controllers/get-products.controller'
+import { create } from '../controllers/create-products.controller'
 
 export async function productsRoutes(app: FastifyInstance) {
-  app.get('/products', getProductsController.handle)
-  app.post('/products', createProductsController.handle)
+  app.get('/products', list)
+  app.post('/products', create)
 }
