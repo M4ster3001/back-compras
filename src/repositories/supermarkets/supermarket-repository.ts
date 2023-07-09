@@ -2,8 +2,9 @@ import { Supermarket } from '@prisma/client'
 import { BaseRepository } from '../base-repository'
 import { Many, MaybeNull } from '@/@types/common'
 import { prisma } from '@/lib/prisma'
+import { ISupermarketRepository } from './isupermarket-repository'
 
-export class SupermarketRepository extends BaseRepository<Supermarket> {
+export class SupermarketRepository extends BaseRepository<Supermarket> implements ISupermarketRepository {
   constructor() {
     super('supermarket')
   }

@@ -1,6 +1,6 @@
 import { Many } from '@/@types/common'
-import { ProductRepository } from '@/repositories/products/product-repository'
-import { SupermarketRepository } from '@/repositories/supermarkets/supermarket-repository'
+import { IProductRepository } from '@/repositories/products/iproduct-repository'
+import { ISupermarketRepository } from '@/repositories/supermarkets/isupermarket-repository'
 import { Prisma, Supermarket } from '@prisma/client'
 
 type CreateProductsUseCaseRequest = {
@@ -11,8 +11,8 @@ type CreateProductsUseCaseRequest = {
 
 export class CreateProductsUseCase {
   constructor(
-    private productsRepository: ProductRepository,
-    private supermarketRepository: SupermarketRepository,
+    private productsRepository: IProductRepository,
+    private supermarketRepository: ISupermarketRepository,
   ) {}
 
   async execute(data: Many<CreateProductsUseCaseRequest>): Promise<void> {

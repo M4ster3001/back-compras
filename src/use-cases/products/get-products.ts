@@ -1,13 +1,13 @@
 import { Many, MaybeNull } from 'src/@types/common'
-import { Product } from '@prisma/client'
-import { ProductRepository } from '@/repositories/products/product-repository'
+import { ProductWithSupermarket } from '@/@types/products'
+import { IProductRepository } from '@/repositories/products/iproduct-repository'
 
 interface GetProductsResponse {
-  products: MaybeNull<Many<Product>>
+  products: MaybeNull<Many<ProductWithSupermarket>>
 }
 
 export class GetProductsUseCase {
-  constructor(private productsRepository: ProductRepository) {}
+  constructor(private productsRepository: IProductRepository) {}
 
   async execute(): Promise<GetProductsResponse> {
     const products = await this.productsRepository.findAll()

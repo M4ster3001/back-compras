@@ -1,4 +1,4 @@
-import { AddressRepository } from '@/repositories/address/address-repository'
+import AppError from '@/errors/AppError'
 import { SupermarketRepository } from '@/repositories/supermarkets/supermarket-repository'
 import { CreateSupermarketsUseCase } from '@/use-cases/supermarkets/create-supermarkets'
 import { FastifyReply, FastifyRequest } from 'fastify'
@@ -17,11 +17,14 @@ export class CreateSupermarketsController {
 
     const { supermarkets } = registerBodySchema.parse(request.body)
 
-    const createProductsUseCase = new CreateSupermarketsUseCase(
-      new SupermarketRepository(),
-      new AddressRepository(),
-    )
 
-    await createProductsUseCase.execute(supermarkets)
+      const createProductsUseCase = new CreateSupermarketsUseCase(
+        new SupermarketRepository(),
+        )
+        
+        await createProductsUseCase.execute(supermarkets)
+     
+
+      return reply.send(201).send()
   }
 }

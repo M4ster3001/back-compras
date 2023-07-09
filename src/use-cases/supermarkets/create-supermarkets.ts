@@ -1,7 +1,7 @@
 import { Many } from '@/@types/common'
-import { AddressRepository } from '@/repositories/address/address-repository'
+import { ISupermarketRepository } from '@/repositories/supermarkets/isupermarket-repository'
 import { SupermarketRepository } from '@/repositories/supermarkets/supermarket-repository'
-import { Prisma } from '@prisma/client'
+import { Prisma, Supermarket } from '@prisma/client'
 
 type CreateSupermarketsUseCaseRequest = {
   name: string
@@ -10,13 +10,14 @@ type CreateSupermarketsUseCaseRequest = {
 
 export class CreateSupermarketsUseCase {
   constructor(
-    private supermarketRepository: SupermarketRepository,
-    private addressRepository: AddressRepository,
+    private supermarketRepository: ISupermarketRepository,
   ) {}
 
-  async execute(data: Many<CreateSupermarketsUseCaseRequest>): Promise<void> {
+  async execute(data: Many<CreateSupermarketsUseCaseRequest>): Promise<Many<Supermarket>> {
     const names = data.map(d => d.name)
     const registeredSupermarkets = await this.supermarketRepository.findAll(names)
+
+    const newSupermarkets: Many<Supermarket> = []
 
     await Promise.all(
       data.map(async (data) => {
@@ -27,11 +28,15 @@ export class CreateSupermarketsUseCase {
         )
 
         if (!supermarketAlreadyRegistered) {
-          await this.supermarketRepository._create<Prisma.SupermarketCreateInput>(
+          const supermarket = await this.supermarketRepository._create<Prisma.SupermarketCreateInput>(
             {name: data.name, location: {connect: {id: data.addressId}}}
           )
+
+          newSupermarkets.push(supermarket);
         }
       }),
     )
+
+    return newSupermarkets
   }
 }

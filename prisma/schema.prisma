@@ -25,10 +25,23 @@ model Supermarket {
 
   location Address @relation(fields: [addressId], references: [id])
 
-  products  Product[]
-  purchases Purchase[]
+  products          Product[]
+  purchases         Purchase[]
+  SupermarketReview SupermarketReview[]
 
   @@map("supermarkets")
+}
+
+model SupermarketReview {
+  id            String  @id @default(uuid())
+  oldName       String
+  newName       String
+  supermarketId String
+  reviewed      Boolean
+
+  supermarket Supermarket @relation(fields: [supermarketId], references: [id])
+
+  @@map("supermarket_review")
 }
 
 model Address {

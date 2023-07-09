@@ -19,9 +19,9 @@ services:
       interval: 10s
       retries: 10
     environment:
-      POSTGRES_USER: "user_test"
-      POSTGRES_PASSWORD: "Postgres2019!"
-      POSTGRES_DATABASE: "compras"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DATABASE: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:

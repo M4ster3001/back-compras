@@ -8,6 +8,6 @@ export class GetProductsController {
 
     const products = await getProductsUseCase.execute()
 
-    return products
+    return reply.status(200).send(products)
   }
 }
