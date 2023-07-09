@@ -12,6 +12,6 @@ export class GetProductsUseCase {
   async execute(): Promise<GetProductsResponse> {
     const products = await this.productsRepository.findAll()
 
-    return {products}
+    return { products }
   }
 }

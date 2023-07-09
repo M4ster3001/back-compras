@@ -2,7 +2,7 @@ import AppError from '@/errors/AppError'
 import { ProductRepository } from '@/repositories/products/product-repository'
 import { SupermarketRepository } from '@/repositories/supermarkets/supermarket-repository'
 import { CreateProductsUseCase } from '@/use-cases/products/create-products'
-import {  FastifyReply, FastifyRequest } from 'fastify'
+import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
 export class CreateProductsController {
@@ -19,18 +19,17 @@ export class CreateProductsController {
 
     const { products } = registerBodySchema.parse(request.body)
 
-    try{
-
+    try {
       const createProductsUseCase = new CreateProductsUseCase(
         new ProductRepository(),
         new SupermarketRepository(),
-        )
-        
-        await createProductsUseCase.execute(products)
-      }catch (err: any){
-        throw new AppError(err.message, err.status)
-      }
+      )
 
-      return reply.send(201).send()
+      await createProductsUseCase.execute(products)
+    } catch (err: any) {
+      throw new AppError(err.message, err.status)
+    }
+
+    return reply.send(201).send()
   }
 }

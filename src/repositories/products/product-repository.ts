@@ -5,7 +5,10 @@ import { prisma } from '@/lib/prisma'
 import { ProductWithSupermarket } from '@/@types/products'
 import { IProductRepository } from './iproduct-repository'
 
-export class ProductRepository extends BaseRepository<Product> implements IProductRepository {
+export class ProductRepository
+  extends BaseRepository<Product>
+  implements IProductRepository
+{
   constructor() {
     super('product')
   }
@@ -24,30 +27,30 @@ export class ProductRepository extends BaseRepository<Product> implements IProdu
               select: {
                 street: true,
                 City: {
-                  select: { 
-                    name: true
-                  }
+                  select: {
+                    name: true,
+                  },
                 },
                 State: {
                   select: {
-                    name: true
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     })
 
-    const data = result.map(p => ({
+    const data = result.map((p) => ({
       ...p,
       Supermarket: {
         name: p.Supermarket?.name,
         location: p.Supermarket?.location.street,
         city: p.Supermarket?.location.City.name,
-        state: p.Supermarket?.location.State.name
-      }
+        state: p.Supermarket?.location.State.name,
+      },
     }))
 
     return data
