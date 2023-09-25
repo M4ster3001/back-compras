@@ -3,7 +3,7 @@ import request from 'supertest'
 
 import { expect, describe, it, beforeAll, afterAll } from 'vitest'
 
-describe('Get All Products Use Case (e2e)', () => {
+describe('Create new products Use Case (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -12,8 +12,8 @@ describe('Get All Products Use Case (e2e)', () => {
     await app.close()
   })
 
-  it('should be possible get all registered products', async () => {
-    await request(app.server)
+  it('should be possible create new products', async () => {
+    const response = await request(app.server)
       .post('/products')
       .send([
         {
@@ -28,9 +28,6 @@ describe('Get All Products Use Case (e2e)', () => {
         },
       ])
 
-    const response = await request(app.server).get('/products').send()
-
-    expect(response.statusCode).toEqual(200)
-    expect(response.body.products.length).toEqual(2)
+    expect(response.statusCode).toEqual(201)
   })
 })

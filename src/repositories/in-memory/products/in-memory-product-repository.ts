@@ -1,21 +1,25 @@
 import { MaybeNull, Many } from '@/@types/common'
-import { ProductWithSupermarket } from '@/@types/products'
+import { ProductWithSupermarket, TGetProducts } from '@/@types/products'
 import { IProductRepository } from '@/repositories/products/iproduct-repository'
 import { Product } from '@prisma/client'
 
 export class InMemoryProductRepository implements IProductRepository {
   public items: Many<Product> = []
 
-  async findAll(): Promise<MaybeNull<Many<ProductWithSupermarket>>> {
-    const data = this.items.map((p) => ({
-      ...p,
-      Supermarket: {
-        name: '',
-        location: '',
-        city: '',
-        state: '',
-      },
-    }))
+  async findAll({
+    page,
+  }: TGetProducts): Promise<MaybeNull<Many<ProductWithSupermarket>>> {
+    const data = this.items
+      .map((p) => ({
+        ...p,
+        Supermarket: {
+          name: '',
+          location: '',
+          city: '',
+          state: '',
+        },
+      }))
+      .slice((page - 1) * 20, page * 20)
 
     return data
   }

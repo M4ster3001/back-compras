@@ -10,3 +10,7 @@ export type ProductWithSupermarket = {
   name: string
   supermarketId: string | null
 }
+
+export type TGetProducts = {
+  page: number
+}

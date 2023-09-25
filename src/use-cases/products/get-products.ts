@@ -6,11 +6,17 @@ interface GetProductsResponse {
   products: MaybeNull<Many<ProductWithSupermarket>>
 }
 
+type TGetProductsUseCaseProps = {
+  page: number
+}
+
 export class GetProductsUseCase {
   constructor(private productsRepository: IProductRepository) {}
 
-  async execute(): Promise<GetProductsResponse> {
-    const products = await this.productsRepository.findAll()
+  async execute({
+    page,
+  }: TGetProductsUseCaseProps): Promise<GetProductsResponse> {
+    const products = await this.productsRepository.findAll({ page })
 
     return { products }
   }

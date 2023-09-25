@@ -27,7 +27,7 @@ describe('Get All Products Use Case', () => {
   })
 
   it('should be possible get all registered products', async () => {
-    const response = await sut.execute()
+    const response = await sut.execute({ page: 1 })
 
     expect(response.products?.length).toStrictEqual(2)
   })
